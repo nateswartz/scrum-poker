@@ -6,10 +6,7 @@ import android.view.View
 import android.widget.Toast
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
 import android.widget.GridView
-
-
 
 class CardsGridActivity : AppCompatActivity() {
 
@@ -20,12 +17,12 @@ class CardsGridActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cards_grid)
 
         val gridview = findViewById<GridView>(R.id.card_gridview)
-        gridview.adapter = ArrayAdapter<String>(this, R.layout.number_tile, R.id.card_text, numbers)
+        gridview.adapter = NumberTileAdapter(this)
 
         gridview.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(parent: AdapterView<*>, v: View,
                             position: Int, id: Long) {
-                Toast.makeText(this@CardsGridActivity, "" + position,
+                Toast.makeText(this@CardsGridActivity, "" + numbers[position],
                         Toast.LENGTH_SHORT).show()
             }
         }
