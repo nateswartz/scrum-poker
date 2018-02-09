@@ -1,5 +1,6 @@
 package com.example.nswartzentruber.scrumpoker
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +8,8 @@ import android.widget.Toast
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
+
+const val EXTRA_NUMBER = "com.example.nswartzentruber.scrumpoker.NUMBER"
 
 class CardsGridActivity : AppCompatActivity() {
 
@@ -22,8 +25,10 @@ class CardsGridActivity : AppCompatActivity() {
         gridview.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(parent: AdapterView<*>, v: View,
                             position: Int, id: Long) {
-                Toast.makeText(this@CardsGridActivity, "" + numbers[position],
-                        Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@CardsGridActivity, SingleCardActivity::class.java).apply {
+                    putExtra(EXTRA_NUMBER, numbers[position])
+                }
+                startActivity(intent)
             }
         }
     }
