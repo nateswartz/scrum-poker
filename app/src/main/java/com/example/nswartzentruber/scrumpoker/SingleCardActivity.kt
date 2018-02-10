@@ -16,6 +16,6 @@ class SingleCardActivity : AppCompatActivity() {
         }
 
         val card = findViewById<CardView>(R.id.card_view) as CardView
-        card.setOnClickListener({ finish() })
+        card.setOnClickListener({ finishAfterTransition() })
     }
 }

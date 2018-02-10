@@ -8,6 +8,9 @@ import android.widget.Toast
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
+import android.app.ActivityOptions
+
+
 
 const val EXTRA_NUMBER = "com.example.nswartzentruber.scrumpoker.NUMBER"
 
@@ -25,10 +28,12 @@ class CardsGridActivity : AppCompatActivity() {
         gridview.onItemClickListener = object : OnItemClickListener {
             override fun onItemClick(parent: AdapterView<*>, v: View,
                             position: Int, id: Long) {
+                val options = ActivityOptions
+                        .makeSceneTransitionAnimation(this@CardsGridActivity, v, "transition_card_view")
                 val intent = Intent(this@CardsGridActivity, SingleCardActivity::class.java).apply {
                     putExtra(EXTRA_NUMBER, numbers[position])
                 }
-                startActivity(intent)
+                startActivity(intent, options.toBundle())
             }
         }
     }
