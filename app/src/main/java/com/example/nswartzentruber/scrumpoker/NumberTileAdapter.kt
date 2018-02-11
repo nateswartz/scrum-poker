@@ -1,16 +1,17 @@
 package com.example.nswartzentruber.scrumpoker
 
-import android.widget.TextView
 import android.content.Context
 import android.view.*
 import android.widget.BaseAdapter
+import android.widget.ImageView
+
+val card_numbers = arrayOf(R.drawable.half, R.drawable.one, R.drawable.two,
+        R.drawable.three, R.drawable.five, R.drawable.eight, R.drawable.thirteen)
 
 class NumberTileAdapter(private val context: Context) : BaseAdapter() {
 
-    private val numbers = arrayOf("1/2", "1", "2", "3", "5", "8", "13")
-
     override fun getCount(): Int {
-        return numbers.size
+        return card_numbers.size
     }
 
     override fun getItem(position: Int): Any? {
@@ -30,9 +31,9 @@ class NumberTileAdapter(private val context: Context) : BaseAdapter() {
             convertView = LayoutInflater.from(context).inflate(R.layout.number_tile, parent, false)
         }
         // Lookup view for data population
-        val cardTextView = convertView!!.findViewById<TextView>(R.id.card_text)
+        val cardImageView = convertView!!.findViewById<ImageView>(R.id.card_image)
         // Populate the data into the template view using the data object
-        cardTextView.text = numbers[position]
-        return convertView
+        cardImageView.setImageResource(card_numbers[position])
+        return convertView!!
     }
 }
