@@ -13,6 +13,8 @@ class SingleCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_single_card)
 
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+
         // Postpone the transition until the window's decor view has
         // finished its layout.
         postponeEnterTransition()

@@ -20,6 +20,8 @@ class CardsGridActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cards_grid)
 
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+
         postponeEnterTransition()
 
         val decor = window.decorView
@@ -37,13 +39,15 @@ class CardsGridActivity : AppCompatActivity() {
         gridview.onItemClickListener = OnItemClickListener { _, v, position, id ->
             // Prevent status/nav bar from fading during transition
             val statusBar = findViewById<View>(android.R.id.statusBarBackground)
+            val toolbar = findViewById<View>(R.id.my_toolbar)
             val navigationBar = findViewById<View>(android.R.id.navigationBarBackground)
             val statusBarPair = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME)
+            val toolbarPair = Pair.create(toolbar, "transition_toolbar_view")
             val navBarPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
             val options = ActivityOptions
                     .makeSceneTransitionAnimation(this@CardsGridActivity,
                             Pair.create<View, String>(v, "transition_card_view"),
-                            statusBarPair, navBarPair)
+                            statusBarPair, navBarPair, toolbarPair)
             val intent = Intent(this@CardsGridActivity, SingleCardActivity::class.java).apply {
                 putExtra(EXTRA_NUMBER, card_numbers[position])
             }
