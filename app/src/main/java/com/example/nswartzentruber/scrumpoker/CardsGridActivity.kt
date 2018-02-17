@@ -1,13 +1,15 @@
 package com.example.nswartzentruber.scrumpoker
 
+import android.app.ActivityOptions
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.Pair
 import android.view.View
+import android.view.ViewTreeObserver
+import android.view.Window
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.GridView
-import android.app.ActivityOptions
-import android.util.Pair
 
 
 const val EXTRA_NUMBER = "com.example.nswartzentruber.scrumpoker.NUMBER"
@@ -18,14 +20,30 @@ class CardsGridActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cards_grid)
 
+        postponeEnterTransition()
+
+        val decor = window.decorView
+        decor.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                decor.viewTreeObserver.removeOnPreDrawListener(this)
+                startPostponedEnterTransition()
+                return true
+            }
+        })
+
         val gridview = findViewById<GridView>(R.id.card_gridview)
         gridview.adapter = NumberTileAdapter(this)
 
         gridview.onItemClickListener = OnItemClickListener { _, v, position, id ->
+            // Prevent status/nav bar from fading during transition
+            val statusBar = findViewById<View>(android.R.id.statusBarBackground)
+            val navigationBar = findViewById<View>(android.R.id.navigationBarBackground)
+            val statusBarPair = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME)
+            val navBarPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
             val options = ActivityOptions
                     .makeSceneTransitionAnimation(this@CardsGridActivity,
-                            Pair.create<View, String>(v, "transition_card_view"))//,
-                            //Pair.create<View, String>(v.findViewById<ImageView>(R.id.card_image), "transition_card_image"))
+                            Pair.create<View, String>(v, "transition_card_view"),
+                            statusBarPair, navBarPair)
             val intent = Intent(this@CardsGridActivity, SingleCardActivity::class.java).apply {
                 putExtra(EXTRA_NUMBER, card_numbers[position])
             }
