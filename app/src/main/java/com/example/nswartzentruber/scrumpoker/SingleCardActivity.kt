@@ -30,9 +30,11 @@ class SingleCardActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.card_image).apply {
            setImageResource(intent.getIntExtra(EXTRA_NUMBER, 0))
+           setColorFilter(intent.getIntExtra(EXTRA_TEXT_COLOR, 0))
         }
 
         val card = findViewById<CardView>(R.id.card_view) as CardView
         card.setOnClickListener({ finishAfterTransition() })
+        card.setCardBackgroundColor(intent.getIntExtra(EXTRA_CARD_COLOR, 0))
     }
 }
